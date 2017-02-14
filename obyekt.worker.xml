@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803U)" ts="2017-02-14 16:44:29">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803U)" ts="2017-02-14 16:53:34">
 <Class name="obyekt.worker">
 <Description><![CDATA[
 <h1>OB"YEKT WORKER CACHÉ INTERSYSTEMS</h1><br/>
-<b>Initially Projected By: <b/><i>Andrei Luiz Nenevê</i><br/>]]></Description>
+<b>Initially Projected By: </b><i>Andrei Luiz Nenevê</i><br/>]]></Description>
 <Super>%RegisteredObject</Super>
-<TimeChanged>64328,59982.233906</TimeChanged>
+<TimeChanged>64328,60796.673094</TimeChanged>
 <TimeCreated>64323,52382.607621</TimeCreated>
 
 <UDLText name="T">
