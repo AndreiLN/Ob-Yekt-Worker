@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803U)" ts="2017-02-15 09:53:42">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803U)" ts="2017-02-15 10:06:33">
 <Class name="obyekt.worker">
 <Description><![CDATA[
 <h1>OB'YEKT WORKER CACHÉ INTERSYSTEMS</h1><br/>
 <b>Initially Projected By: </b><i>Andrei Luiz Nenevê</i><br/>]]></Description>
 <Super>%RegisteredObject</Super>
-<TimeChanged>64329,33891.587028</TimeChanged>
+<TimeChanged>64329,36361.900704</TimeChanged>
 <TimeCreated>64323,52382.607621</TimeCreated>
 
 <UDLText name="T">
@@ -233,8 +233,9 @@ W Arr.%ToJSON()
 			Set tList = $ListFromString(pString,pDelimiter)
 		}
 		Set return = ##class(%DynamicArray).%New()
-		For i=1:1:$ListLength(tList) {
-			$$$THROWONERROR(tSC, return.%Push($List(tList,i)))
+		Set pointer = 0
+		While $ListNext(tList,pointer,piece) {
+			$$$THROWONERROR(tSC, return.%Push(piece))
 		}
 	} Catch tException {
 		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
