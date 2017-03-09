@@ -213,16 +213,14 @@ Similar to Join, but in this the delimiter will be always ','<br/>]]></Descripti
 <Description><![CDATA[
 Similar to Split in JS<br/>
 <example>
-Set Str = "A*B*C*D*E"
 Set Worker = ##class(obyekt.worker).%New()
-Set Arr = Worker.Split(Arr, "*")
-W Arr.%ToJSON()
+W Worker.Split("A*B*C*D*E", "*").%ToJSON()
 ; ["A","B","C","D","E"]
 </example>]]></Description>
 <FormalSpec>pString:%String,pDelimiter:%String="",*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
-	Set tSC = $$$OK
+	Set tSC = $$$OK, return = ##class(%DynamicArray).%New()
 	Try {
 		If pDelimiter = "" {
 			Set tList = $ListBuild($Extract(pString,1,1))
@@ -232,7 +230,6 @@ W Arr.%ToJSON()
 		} Else {
 			Set tList = $ListFromString(pString,pDelimiter)
 		}
-		Set return = ##class(%DynamicArray).%New()
 		Set pointer = 0
 		While $ListNext(tList,pointer,piece) {
 			$$$THROWONERROR(tSC, return.%Push(piece))
