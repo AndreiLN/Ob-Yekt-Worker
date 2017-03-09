@@ -15,14 +15,14 @@
 ]]></Content>
 </UDLText>
 
-<Method name="Tenary">
+<Method name="Ternary">
 <Description><![CDATA[
-Method similar to tenary in other languages: (a==b)?(a):(b)
+Method similar to ternary in other languages: (a==b)?(a):(b)
 <example>
 Set a = 1
-Set b = ##class(obyekt.worker).%New().Tenary(a=1,1,0)
+Set b = ##class(obyekt.worker).%New().Ternary(a=1,1,0)
 ; b = 1
-Set b = ##class(obyekt.worker).%New().Tenary(a=0,1,0)
+Set b = ##class(obyekt.worker).%New().Ternary(a=0,1,0)
 ; b = 0
 </example>]]></Description>
 <FormalSpec>pCondition,pTrue,pFalse</FormalSpec>
@@ -34,9 +34,9 @@ Set b = ##class(obyekt.worker).%New().Tenary(a=0,1,0)
 
 <Method name="IfOrElse">
 <Description>
-Shortcut to Tenary</Description>
+Shortcut to Ternary</Description>
 <FormalSpec>pCondition,pTrue,pFalse</FormalSpec>
-<Implementation><![CDATA[	Quit ..Tenary(pCondition,pTrue,pFalse)
+<Implementation><![CDATA[	Quit ..Ternary(pCondition,pTrue,pFalse)
 ]]></Implementation>
 </Method>
 
@@ -154,7 +154,7 @@ Set Arr = ["A","B","C","D","E","C"]
 Set Worker = ##class(obyekt.worker).%New()
 Set newArr = Worker.Slice(Arr, 0, 2)
 Write newArr.%ToJSON()
-;["A","B","C"]
+; ["A","B","C"]
 </example>]]></Description>
 <FormalSpec>pArray:%DynamicArray,pInitPosition:%Integer=0,pEndPosition:%Integer=0,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
@@ -162,7 +162,7 @@ Write newArr.%ToJSON()
 	Set tSC = $$$OK
 	Try {
 		Set tNewArray  = ##class(%DynamicArray).%New()
-		Set tEnd = ..Tenary(pEndPosition=0, pArray.%Size(), pEndPosition)
+		Set tEnd = ..Ternary(pEndPosition=0, pArray.%Size(), pEndPosition)
 		For i=pInitPosition:1:tEnd{
 			$$$THROWONERROR(tSC, tNewArray.%Push(pArray.%Get(i)))
 		}
@@ -191,7 +191,7 @@ Write Worker.Join(Arr, "*")
 		Set iter = pArray.%GetIterator()
 		Set return = ""
 		While iter.%GetNext(.key , .value ) {
-	    		Set return = ..Tenary(return="", value, return_pDelimiter_value)
+	    		Set return = ..Ternary(return="", value, return_pDelimiter_value)
 	   	 }
 	} Catch tException {
 		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
@@ -278,11 +278,11 @@ Set Arr = [7,4,6,5,9,3,1,8,2]
 Set Worker = ##class(obyekt.worker).%New()
 Set SortedArr = Worker.Sort(Arr)
 Write SortedArr.%ToJSON()
-;[1,2,3,4,5,6,7,8,9]
+; [1,2,3,4,5,6,7,8,9]
 </example>]]></Description>
 <FormalSpec>pArray:%DynamicArray,pInitIndex:%Integer=0,pEndIndex:%Integer=0</FormalSpec>
 <Implementation><![CDATA[
-	Set tEndIndex = ..Tenary(pEndIndex = 0, pArray.%Size()-1, pEndIndex)
+	Set tEndIndex = ..Ternary(pEndIndex = 0, pArray.%Size()-1, pEndIndex)
 	If ((pInitIndex < tEndIndex)&&(pInitIndex >= 0)&&(tEndIndex<pArray.%Size())&&(pArray.%Size()>0)){
 		Set isNum = $Num(pArray.%Get(0))
 		Set pivot = pInitIndex
@@ -355,7 +355,7 @@ Write Arr.%ToJSON()
 <Implementation><![CDATA[
 	Set tSC = $$$OK
 	Try {
-		Set tEndIndex = ..Tenary(pEndIndex=0,pArray.%Size()-1,pEndIndex)
+		Set tEndIndex = ..Ternary(pEndIndex=0,pArray.%Size()-1,pEndIndex)
 		Set iter = pArray.%GetIterator()
 		While iter.%GetNext(.key , .value ) {
 			Quit:tEndIndex+1=key
@@ -370,7 +370,33 @@ Write Arr.%ToJSON()
 
 <Method name="AuxMethodGet">
 <FormalSpec>pArray:%DynamicArray,pIndex:%Integer,pIsNum:%Boolean=1</FormalSpec>
-<Implementation><![CDATA[	Quit ..Tenary(pIsNum=1, pArray.%Get(pIndex), $ASCII($Extract(pArray.%Get(pIndex),1,1)))
+<Implementation><![CDATA[	Quit ..Ternary(pIsNum=1, pArray.%Get(pIndex), $ASCII($Extract(pArray.%Get(pIndex),1,1)))
+]]></Implementation>
+</Method>
+
+<Method name="Min">
+<Description><![CDATA[
+Returns the minimal element in the enumerable according
+to Cache's term ordering. <br>
+If multiple elements are considered minimal, the first one that was found
+is returned.
+<example>
+Set ArrMin = [7,4,6,5,9,3,1,8,2]
+Set Worker = ##class(obyekt.worker).%New()
+Set tSC = Worker.Min(ArrMin,.Minimal)
+Write Minimal
+; 1
+</example>]]></Description>
+<FormalSpec>pArray:%DynamicArray,*pMin</FormalSpec>
+<Implementation><![CDATA[
+	Set tSC = $$$OK
+	Try {
+		Set SortedArr = ..Sort(pArray), pMin = SortedArr.%Get(0)
+		
+	} Catch tException {
+		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
+	}
+	Quit tSC
 ]]></Implementation>
 </Method>
 </Class>
