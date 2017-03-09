@@ -373,5 +373,31 @@ Write Arr.%ToJSON()
 <Implementation><![CDATA[	Quit ..Ternary(pIsNum=1, pArray.%Get(pIndex), $ASCII($Extract(pArray.%Get(pIndex),1,1)))
 ]]></Implementation>
 </Method>
+
+<Method name="Min">
+<Description><![CDATA[
+Returns the minimal element in the enumerable according
+to Cache's term ordering. <br>
+If multiple elements are considered minimal, the first one that was found
+is returned.
+<example>
+Set ArrMin = [7,4,6,5,9,3,1,8,2]
+Set Worker = ##class(obyekt.worker).%New()
+Set tSC = Worker.Min(ArrMin,.Minimal)
+Write Minimal
+; 1
+</example>]]></Description>
+<FormalSpec>pArray:%DynamicArray,*pMin</FormalSpec>
+<Implementation><![CDATA[
+	Set tSC = $$$OK
+	Try {
+		Set SortedArr = ..Sort(pArray), pMin = SortedArr.%Get(0)
+		
+	} Catch tException {
+		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
+	}
+	Quit tSC
+]]></Implementation>
+</Method>
 </Class>
 </Export>
