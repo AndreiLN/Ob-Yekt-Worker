@@ -2,7 +2,7 @@
 ## InterSystems Caché Worker Aditional Class for works with %DynamicObject And %DynamicArray (Caché 2016.2)
 
 Actual General Methods:
-* Tenary / IfOrElse
+* Ternary / IfOrElse
 
 Actual %DynamicObject Methods:
 * SearchInObject / SIO / Search
