@@ -154,7 +154,7 @@ Set Arr = ["A","B","C","D","E","C"]
 Set Worker = ##class(obyekt.worker).%New()
 Set newArr = Worker.Slice(Arr, 0, 2)
 Write newArr.%ToJSON()
-;["A","B","C"]
+; ["A","B","C"]
 </example>]]></Description>
 <FormalSpec>pArray:%DynamicArray,pInitPosition:%Integer=0,pEndPosition:%Integer=0,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
@@ -278,7 +278,7 @@ Set Arr = [7,4,6,5,9,3,1,8,2]
 Set Worker = ##class(obyekt.worker).%New()
 Set SortedArr = Worker.Sort(Arr)
 Write SortedArr.%ToJSON()
-;[1,2,3,4,5,6,7,8,9]
+; [1,2,3,4,5,6,7,8,9]
 </example>]]></Description>
 <FormalSpec>pArray:%DynamicArray,pInitIndex:%Integer=0,pEndIndex:%Integer=0</FormalSpec>
 <Implementation><![CDATA[
