@@ -5,7 +5,6 @@
 <h1>OB'YEKT WORKER CACHÉ INTERSYSTEMS</h1><br/>
 <b>Initially Projected By: </b><i>Andrei Luiz Nenevê</i><br/>]]></Description>
 <Super>%RegisteredObject</Super>
-<TimeChanged>64329,51226.880104</TimeChanged>
 <TimeCreated>64323,52382.607621</TimeCreated>
 
 <UDLText name="T">
@@ -25,6 +24,7 @@ Set b = ##class(obyekt.worker).%New().Ternary(a=1,1,0)
 Set b = ##class(obyekt.worker).%New().Ternary(a=0,1,0)
 ; b = 0
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pCondition,pTrue,pFalse</FormalSpec>
 <Implementation><![CDATA[
 	Quit:pCondition pTrue
@@ -35,6 +35,7 @@ Set b = ##class(obyekt.worker).%New().Ternary(a=0,1,0)
 <Method name="IfOrElse">
 <Description>
 Shortcut to Ternary</Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pCondition,pTrue,pFalse</FormalSpec>
 <Implementation><![CDATA[	Quit ..Ternary(pCondition,pTrue,pFalse)
 ]]></Implementation>
@@ -57,6 +58,7 @@ Do Worker.SearchInObject("An simple Value",obj, .Key) //Or .Search or .SIO
 Write Key
 ; A
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pValue,pObject:%DynamicObject,*pKey</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
@@ -76,6 +78,7 @@ Write Key
 <Method name="SIO">
 <Description>
 Shortcut to SearchInObject</Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pValue,pObject:%DynamicObject,*pKey</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[	Quit ..SearchInObject(pValue,pObject,.pKey)
@@ -85,6 +88,7 @@ Shortcut to SearchInObject</Description>
 <Method name="Search">
 <Description>
 Shortcut to SearchInObject</Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pValue,pObject:%DynamicObject,*pKey</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[	Quit ..SearchInObject(pValue,pObject,.pKey)
@@ -113,6 +117,7 @@ For i=1:1:Keys { Write Keys(i),!} //Position 2 and 5 of the DynamicArray
 ;2
 ;5
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pValue,pArray:%DynamicArray,*pKeys</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
@@ -138,6 +143,7 @@ For i=1:1:Keys { Write Keys(i),!} //Position 2 and 5 of the DynamicArray
 <Method name="SIA">
 <Description>
 Shortcut to SearchInArray</Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pValue,pArray:%DynamicArray,*pKeys</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[	Quit ..SearchInArray(pValue,pArray,.pKeys)
@@ -156,6 +162,7 @@ Set newArr = Worker.Slice(Arr, 0, 2)
 Write newArr.%ToJSON()
 ; ["A","B","C"]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,pInitPosition:%Integer=0,pEndPosition:%Integer=0,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
@@ -183,6 +190,7 @@ Set Worker = ##class(obyekt.worker).%New()
 Write Worker.Join(Arr, "*")
 ; A*B*C*D*E*C
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,pDelimiter:%String=",",*tSC</FormalSpec>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
@@ -203,6 +211,7 @@ Write Worker.Join(Arr, "*")
 <Method name="ToString">
 <Description><![CDATA[
 Similar to Join, but in this the delimiter will be always ','<br/>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,*tSC</FormalSpec>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[	Quit ..Join(pArray, ",", .tSC)
@@ -217,6 +226,7 @@ Set Worker = ##class(obyekt.worker).%New()
 W Worker.Split("A*B*C*D*E", "*").%ToJSON()
 ; ["A","B","C","D","E"]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pString:%String,pDelimiter:%String="",*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
@@ -251,6 +261,7 @@ Set NewArr = Worker.Reverse(Arr)
 Write NewArr.%ToJSON()
 ; ["E","D","C","B","A"]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
@@ -277,6 +288,7 @@ Set SortedArr = Worker.Sort(Arr)
 Write SortedArr.%ToJSON()
 ; [1,2,3,4,5,6,7,8,9]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,pInitIndex:%Integer=0,pEndIndex:%Integer=0</FormalSpec>
 <Implementation><![CDATA[
 	Set tEndIndex = ..Ternary(pEndIndex = 0, pArray.%Size()-1, pEndIndex)
@@ -319,6 +331,7 @@ Set NewArr = Worker.Concat(Arr1,Arr2)
 Write NewArr.%ToJSON()
 ; ["A","B","C","D","E","F"]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray1:%DynamicArray,pArray2:%DynamicArray,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
@@ -347,6 +360,7 @@ Set Arr = Worker.Fill(Arr,"X")
 Write Arr.%ToJSON()
 ; ["X","X","X"]
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,pValue,pInitIndex:%Integer=0,pEndIndex:%Integer=0,*tSC</FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
@@ -366,6 +380,7 @@ Write Arr.%ToJSON()
 </Method>
 
 <Method name="AuxMethodGet">
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,pIndex:%Integer,pIsNum:%Boolean=1</FormalSpec>
 <Implementation><![CDATA[	Quit ..Ternary(pIsNum=1, pArray.%Get(pIndex), $ASCII($Extract(pArray.%Get(pIndex),1,1)))
 ]]></Implementation>
@@ -384,6 +399,7 @@ Set tSC = Worker.Min(ArrMin,.Minimal)
 Write Minimal
 ; 1
 </example>]]></Description>
+<ClassMethod>1</ClassMethod>
 <FormalSpec>pArray:%DynamicArray,*pMin</FormalSpec>
 <Implementation><![CDATA[
 	Set tSC = $$$OK
