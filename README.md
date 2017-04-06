@@ -12,6 +12,8 @@ Actual %DynamicArray Methods:
 * Split
 * Join
 * Reverse
-* Sort       *Works with numeric %DynamicArray's*
+* Sort       &nbsp;&nbsp;&nbsp;&nbsp;*Works with numeric %DynamicArray's*
 * Concat
 * Fill
+* Min
+* Max
