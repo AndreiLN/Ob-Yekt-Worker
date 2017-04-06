@@ -12,7 +12,7 @@ Actual %DynamicArray Methods:
 * Split
 * Join
 * Reverse
-* Sort       &nbsp;&nbsp;&nbsp;&nbsp;*Works with numeric %DynamicArray's*
+* Sort       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Works with %DynamicArray's of numerics[1,3,9]... and characters["a","g","b"...]*
 * Concat
 * Fill
 * Min
