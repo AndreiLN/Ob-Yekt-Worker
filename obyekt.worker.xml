@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803U)" ts="2017-02-15 14:28:22">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2.1 (Build 803)" ts="2017-04-06 15:06:05">
+
+
 <Class name="obyekt.worker">
 <Description><![CDATA[
 <h1>OB'YEKT WORKER CACHÉ INTERSYSTEMS</h1><br/>
-<b>Initially Projected By: </b><i>Andrei Luiz Nenevê</i><br/>]]></Description>
+<b>Initially Projected By: </b><i>Andrei Luiz Nenevê</i><br/>
+<b>Collaborator: </b><i>Henry Hamon</i><br/>]]></Description>
 <Super>%RegisteredObject</Super>
+<TimeChanged>64379,54295.25326</TimeChanged>
 <TimeCreated>64323,52382.607621</TimeCreated>
 
 <UDLText name="T">
@@ -256,20 +260,18 @@ W Worker.Split("A*B*C*D*E", "*").%ToJSON()
 Similar to Reverse in JS<br/>
 <example>
 Set Arr = ["A","B","C","D","E"]
-Set Worker = ##class(obyekt.worker).%New()
-Set NewArr = Worker.Reverse(Arr)
-Write NewArr.%ToJSON()
+Do ##class(obyekt.worker).Reverse(Arr).%ToJSON()
 ; ["E","D","C","B","A"]
 </example>]]></Description>
 <ClassMethod>1</ClassMethod>
-<FormalSpec>pArray:%DynamicArray,*tSC</FormalSpec>
+<FormalSpec><![CDATA[&pArray:%DynamicArray,tSC:%Status]]></FormalSpec>
 <ReturnType>%DynamicArray</ReturnType>
 <Implementation><![CDATA[
 	Set tSC = $$$OK
 	Try {
 		Set return = ##class(%DynamicArray).%New()
 		For i=pArray.%Size()-1:-1:0 {
-			$$$THROWONERROR(tSC, return.%Push(pArray.%Get(i)))
+			Do return.%Push(pArray.%Get(i))
 		}
 	} Catch tException {
 		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
@@ -283,37 +285,39 @@ Write NewArr.%ToJSON()
 Method that sorts(Quick Sort) an %DynamicArray
 <example>
 Set Arr = [7,4,6,5,9,3,1,8,2]
-Set Worker = ##class(obyekt.worker).%New()
-Set SortedArr = Worker.Sort(Arr)
-Write SortedArr.%ToJSON()
+Do ##class(obyekt.worker).Sort(Arr)
+Write Arr.%ToJSON()
 ; [1,2,3,4,5,6,7,8,9]
 </example>]]></Description>
 <ClassMethod>1</ClassMethod>
-<FormalSpec>pArray:%DynamicArray,pInitIndex:%Integer=0,pEndIndex:%Integer=0</FormalSpec>
+<FormalSpec><![CDATA[&pArray:%DynamicArray,pInitIndex:%Integer=0,pEndIndex:%Integer=0]]></FormalSpec>
 <Implementation><![CDATA[
 	Set tEndIndex = ..Ternary(pEndIndex = 0, pArray.%Size()-1, pEndIndex)
 	If ((pInitIndex < tEndIndex)&&(pInitIndex >= 0)&&(tEndIndex<pArray.%Size())&&(pArray.%Size()>0)){
-		Set isNum = $Num(pArray.%Get(0))
-		Set pivot = pInitIndex
-		For i=pInitIndex:1:tEndIndex {
-			Set j = i
-			If ( ..AuxMethodGet(pArray,j,isNum) < ..AuxMethodGet(pArray, pivot, isNum)){
-				Set ch = pArray.%Get(j)
-				While (j > pivot){
-					Do pArray.%Set(j, pArray.%Get(j-1))
-					Set j = j - 1
-				}
-				Do pArray.%Set(j,ch)
-				Set pivot = pivot + 1
+		Set i = pInitIndex, j = tEndIndex
+		Set pivot = pArray.%Get(((pInitIndex + tEndIndex) \ 2))
+		While i<=j{
+			While pArray.%Get(i)<pivot{
+				Set i = i + 1
+			}
+			While pArray.%Get(j)>pivot{
+				Set j = j - 1
+			}
+			If (i <= j){
+				Set aux = pArray.%Get(i)
+				Do pArray.%Set(i,pArray.%Get(j))
+				Do pArray.%Set(j,aux)
+				Set i = i + 1
+				Set j = j - 1
 			}
 		}
-		If (pivot-1 >= pInitIndex){
-			Do ..Sort(pArray, pInitIndex, pivot-1)
+		If (pInitIndex < j){
+			Do ..Sort(pArray, pInitIndex, j)
 		}
-		If pivot+1 <= pEndIndex{
-			Do ..Sort(pArray, pivot+1, pEndIndex)
+		If (i < tEndIndex){
+			Do ..Sort(pArray, i, tEndIndex)
 		}
-		Quit pArray
+		Quit $$$YES
 	} Else {
 		Quit $$$NO
 	}
@@ -379,13 +383,6 @@ Write Arr.%ToJSON()
 ]]></Implementation>
 </Method>
 
-<Method name="AuxMethodGet">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>pArray:%DynamicArray,pIndex:%Integer,pIsNum:%Boolean=1</FormalSpec>
-<Implementation><![CDATA[	Quit ..Ternary(pIsNum=1, pArray.%Get(pIndex), $ASCII($Extract(pArray.%Get(pIndex),1,1)))
-]]></Implementation>
-</Method>
-
 <Method name="Min">
 <Description><![CDATA[
 Returns the minimal element in the enumerable according
@@ -393,23 +390,34 @@ to Cache's term ordering. <br>
 If multiple elements are considered minimal, the first one that was found
 is returned.
 <example>
-Set ArrMin = [7,4,6,5,9,3,1,8,2]
-Set Worker = ##class(obyekt.worker).%New()
-Set tSC = Worker.Min(ArrMin,.Minimal)
-Write Minimal
-; 1
+Set ArrMin = [7,4,6,5,9,3,8,2]
+Write ##class(obyekt.worker).Min(ArrMin)
+; 2
 </example>]]></Description>
 <ClassMethod>1</ClassMethod>
-<FormalSpec>pArray:%DynamicArray,*pMin</FormalSpec>
+<FormalSpec>pArray:%DynamicArray</FormalSpec>
 <Implementation><![CDATA[
-	Set tSC = $$$OK
-	Try {
-		Set SortedArr = ..Sort(pArray), pMin = SortedArr.%Get(0)
-		
-	} Catch tException {
-		Set:$$$ISOK(tSC) tSC = tException.AsStatus()
-	}
-	Quit tSC
+	Do ..Sort(pArray) 
+	Quit pArray.%Get(0)
+]]></Implementation>
+</Method>
+
+<Method name="Max">
+<Description><![CDATA[
+Returns the maximal element in the enumerable according
+to Cache's term ordering. <br>
+If multiple elements are considered maximal, the last one that was found
+is returned.
+<example>
+Set ArrMax = [7,4,6,5,9,3,8,2]
+Write ##class(obyekt.worker).Max(ArrMax)
+; 9
+</example>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pArray:%DynamicArray</FormalSpec>
+<Implementation><![CDATA[
+	Do ..Sort(pArray) 
+	Quit pArray.%Get((pArray.%Size()-1))
 ]]></Implementation>
 </Method>
 </Class>
